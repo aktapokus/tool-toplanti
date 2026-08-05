@@ -1,0 +1,12 @@
+{
+  "id": "toplanti",
+  "name": "Toplantı Notları",
+  "namespace": "core",
+  "version": "0.1.0",
+  "faz": 1,
+  "aktif": true,
+  "description": "Toplantı sesini kaydedip (canlı mikrofon ya da yüklenen dosya) konuşmacılara göre ayırarak Türkçe transkript ve özet notu oluşturur",
+  "module": "tools.toplanti",
+  "ui_entry": "panel.js",
+  "requires_folder": true
+}
