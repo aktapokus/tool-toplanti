@@ -22,9 +22,9 @@ const ICON_CLIPBOARD = "<svg viewBox='0 0 24 24' width='15' height='15' fill='no
 const ICON_EDIT = "<svg viewBox='0 0 24 24' width='15' height='15' fill='none' stroke='currentColor' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><path d='M12 20h9'/><path d='M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z'/></svg>";
 const ICON_REFRESH = "<svg viewBox='0 0 24 24' width='15' height='15' fill='none' stroke='currentColor' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.5 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.65 4.36A9 9 0 0 0 20.5 15'/></svg>";
 const ICON_UNDO = "<svg viewBox='0 0 24 24' width='15' height='15' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><path d='M9 14 4 9l5-5'/><path d='M4 9h10a6 6 0 0 1 0 12h-1'/></svg>";
-const ACCENT = '#7C3AED';
-const ACCENT_DARK = '#5B21B6';
-const ACCENT_LIGHT = '#EDE9FE';
+const ACCENT = 'var(--blue)';       // cekirdek aksani (tum araclarda ayni sari)
+const ACCENT_DARK = 'var(--blue-dim)';
+const ACCENT_LIGHT = 'var(--blue-light)';
 
 // core'un AnalyzeRequest'i sadece {tool, istek, klasor} kabul ediyor — yeni bir
 // alan eklenemiyor (AGENTS.md Madde 2, core değişmiyor). Bu yüzden kullanıcının
@@ -66,21 +66,21 @@ function ensureStyles() {
     .toplanti-sonuc-area { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; }
     .toplanti-durum-kutu {
       padding: 12px 16px; background: var(--tp-accent-light); border: 1px solid var(--tp-accent);
-      border-radius: 6px; font-size: 13px; color: var(--tp-accent-dark); margin-bottom: 12px;
+      border-radius: 6px; font-size: 13px; color: var(--blue-text,#7A5800); margin-bottom: 12px;
     }
     .toplanti-ilerleme-bar-dis { background: #fff; border-radius: 4px; height: 6px; overflow: hidden; margin-top: 8px; }
     .toplanti-ilerleme-bar-ic { background: var(--tp-accent); height: 100%; transition: width 0.5s; }
     .toplanti-gecen-sure { margin-top: 8px; font-size: 11px; color: var(--text-dim, #6B6A63); }
     .toplanti-hata-kutu {
-      padding: 12px 16px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;
-      font-size: 13px; color: #B91C1C; margin-bottom: 12px;
+      padding: 12px 16px; background: var(--red-light,#FEF2F2); border: 1px solid var(--red-light,#FECACA); border-radius: 6px;
+      font-size: 13px; color: var(--red,#B91C1C); margin-bottom: 12px;
     }
     .toplanti-konusmaci-listesi { margin-bottom: 14px; }
     .toplanti-konusmaci-satir { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
     .toplanti-konusmaci-satir label { font-size: 12px; color: var(--text-dim); width: 90px; flex-shrink: 0; }
     .toplanti-konusmaci-satir input { flex: 1; font-size: 13px; }
     .toplanti-segment { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--surface-2); font-size: 13px; }
-    .toplanti-segment-konusmaci { font-weight: 600; color: var(--tp-accent-dark); flex-shrink: 0; min-width: 100px; }
+    .toplanti-segment-konusmaci { font-weight: 600; color: var(--blue-text,#7A5800); flex-shrink: 0; min-width: 100px; }
     .toplanti-segment-metin { color: var(--text); line-height: 1.5; }
     .toplanti-transkript-kutu { border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; max-height: 340px; overflow-y: auto; margin-bottom: 14px; }
     .toplanti-ayarlar-toggle {
@@ -89,16 +89,16 @@ function ensureStyles() {
       border: 1px solid var(--border); border-radius: 6px;
       color: var(--text-dim); font-size: 12px; cursor: pointer;
     }
-    .toplanti-ayarlar-toggle:hover { border-color: var(--tp-accent); color: var(--tp-accent-dark); }
+    .toplanti-ayarlar-toggle:hover { border-color: var(--tp-accent); color: var(--blue-text,#7A5800); }
     .toplanti-ayarlar-durum { font-size: 11px; color: var(--text-xs); }
-    .toplanti-ayarlar-durum.hazir { color: #15803D; font-weight: 500; }
+    .toplanti-ayarlar-durum.hazir { color: var(--green,#15803D); font-weight: 500; }
     .toplanti-ayarlar-panel {
       margin-top: 8px; padding: 14px; background: var(--bg-alt, #F7F7F5); border: 1px solid var(--border);
       border-radius: 6px; font-size: 12px; line-height: 1.6;
     }
     .toplanti-ayarlar-baslik { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
     .toplanti-ayarlar-aciklama { color: var(--text-dim); margin-bottom: 12px; }
-    .toplanti-ayarlar-aciklama a { color: var(--tp-accent-dark); }
+    .toplanti-ayarlar-aciklama a { color: var(--blue-text,#7A5800); }
     .toplanti-key-row { display: flex; gap: 8px; }
     .toplanti-key-row input { flex: 1; }
     .toplanti-tab-row { display: flex; gap: 1px; margin-bottom: 14px; }
@@ -106,10 +106,10 @@ function ensureStyles() {
       font-size: 12px; font-weight: 500; padding: 6px 14px; border: 1px solid var(--border);
       background: var(--bg); color: var(--text-dim); cursor: pointer;
     }
-    .toplanti-tab:hover { border-color: var(--tp-accent); color: var(--tp-accent); }
-    .toplanti-tab.active { background: var(--tp-accent); border-color: var(--tp-accent); color: #fff; }
+    .toplanti-tab:hover { border-color: var(--tp-accent); color: var(--blue-text,#7A5800); }
+    .toplanti-tab.active { background: var(--tp-accent); border-color: var(--tp-accent); color: var(--on-accent,#141412); }
     .toplanti-ozet-blok { margin-bottom: 12px; }
-    .toplanti-ozet-blok h4 { font-size: 13px; margin: 0 0 6px; color: var(--tp-accent-dark); }
+    .toplanti-ozet-blok h4 { font-size: 13px; margin: 0 0 6px; color: var(--blue-text,#7A5800); }
     .toplanti-ozet-blok ul { margin: 0; padding-left: 18px; }
     .toplanti-plan-footer { display: flex; gap: 8px; margin-top: 14px; }
     .toplanti-placeholder { padding: 24px; text-align: center; color: var(--text-xs); font-size: 12px; }
@@ -200,6 +200,19 @@ export function mount(container, api, toolId) {
               <button class="btn-primary" id="tpHfTokenKaydetBtn">${esc(t('kaydet_btn'))}</button>
             </div>
             <div id="tpHfTokenSonuc" style="margin-top:8px"></div>
+
+            <div style="border-top:1px solid var(--border); margin-top:14px; padding-top:14px">
+              <div class="toplanti-ayarlar-baslik" style="display:flex;justify-content:space-between;align-items:center">
+                <span>${esc(t('groq_hizli_baslik'))}</span>
+                <span class="toplanti-ayarlar-durum" id="tpGroqDurum">${esc(t('kontrol_ediliyor'))}</span>
+              </div>
+              <p class="toplanti-ayarlar-aciklama">${t('groq_hizli_aciklama_html')}</p>
+              <div class="toplanti-key-row">
+                <input type="text" id="tpGroqKeyInput" placeholder="${esc(t('groq_key_placeholder'))}">
+                <button class="btn-primary" id="tpGroqKaydetBtn">${esc(t('groq_hizli_buton'))}</button>
+              </div>
+              <div id="tpGroqSonuc" style="margin-top:8px"></div>
+            </div>
           </div>
 
           <div class="toplanti-workflow" id="tpWorkflow">
@@ -211,7 +224,7 @@ export function mount(container, api, toolId) {
               </div>
             </div>
             <div class="toplanti-workflow-arrow">↓</div>
-            <div class="toplanti-workflow-node toplanti-workflow-node-clickable" id="tpWfStt">
+            <div class="toplanti-workflow-node toplanti-workflow-node-clickable" id="tpWfStt" title="${esc(t('stt_secim_ipucu'))}">
               <div class="toplanti-workflow-icon">${ICON_NOTE}</div>
               <div class="toplanti-workflow-body">
                 <div class="toplanti-workflow-title">${esc(t('transkripsiyon_baslik'))}</div>
@@ -292,7 +305,7 @@ export function mount(container, api, toolId) {
   container.querySelector('#tpHfTokenKaydetBtn').onclick = async () => {
     const token = container.querySelector('#tpHfTokenInput').value.trim();
     const sonucEl = container.querySelector('#tpHfTokenSonuc');
-    if (!token) { sonucEl.innerHTML = `<span style="color:#B91C1C">${esc(t('token_bos'))}</span>`; return; }
+    if (!token) { sonucEl.innerHTML = `<span style="color:var(--red,#B91C1C)">${esc(t('token_bos'))}</span>`; return; }
     try {
       const r = await api.apiFetch(`/api/tools/${toolId}/settings/hf-token`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -300,11 +313,50 @@ export function mount(container, api, toolId) {
       });
       const d = await r.json();
       sonucEl.innerHTML = (r.ok && d.basarili)
-        ? `<span style="color:#15803D">${ICON_CHECK} ${esc(t('kaydedildi'))}</span>`
-        : `<span style="color:#B91C1C">${esc(d.detail || t('kaydedilemedi'))}</span>`;
+        ? `<span style="color:var(--green,#15803D)">${ICON_CHECK} ${esc(t('kaydedildi'))}</span>`
+        : `<span style="color:var(--red,#B91C1C)">${esc(d.detail || t('kaydedilemedi'))}</span>`;
       if (r.ok && d.basarili) ayarlarDurumGoster();
     } catch (e) {
-      sonucEl.innerHTML = `<span style="color:#B91C1C">${esc(t('baglanti_hatasi'))}: ${esc(e.message)}</span>`;
+      sonucEl.innerHTML = `<span style="color:var(--red,#B91C1C)">${esc(t('baglanti_hatasi'))}: ${esc(e.message)}</span>`;
+    }
+  };
+
+  // ── Tek-tık Bulut STT kurulumu — hiç bilmeyen bir kullanıcı için: core'un
+  // /settings sayfasındaki teknik formu (endpoint/gorev/key_env alanları)
+  // hiç görmeden, sadece Groq key'ini yapıştırıp Bulut'u aktifleştirebilsin
+  // diye (bkz. __init__.py'deki groq_hizli_kurulum gerekçesi).
+  async function groqDurumGoster() {
+    const durumEl = container.querySelector('#tpGroqDurum');
+    try {
+      const r = await api.apiFetch(`/api/tools/${toolId}/settings/groq-hizli-kurulum`);
+      const d = await r.json();
+      durumEl.innerHTML = d.yapilandirilmis ? `${ICON_CHECK} ${esc(t('hazir_etiket'))}` : esc(t('kurulum_gerekli'));
+      durumEl.classList.toggle('hazir', !!d.yapilandirilmis);
+    } catch (e) {
+      durumEl.textContent = '';
+    }
+  }
+  groqDurumGoster();
+
+  container.querySelector('#tpGroqKaydetBtn').onclick = async () => {
+    const key = container.querySelector('#tpGroqKeyInput').value.trim();
+    const sonucEl = container.querySelector('#tpGroqSonuc');
+    if (!key) { sonucEl.innerHTML = `<span style="color:var(--red,#B91C1C)">${esc(t('token_bos'))}</span>`; return; }
+    try {
+      const r = await api.apiFetch(`/api/tools/${toolId}/settings/groq-hizli-kurulum`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ api_key: key }),
+      });
+      const d = await r.json();
+      sonucEl.innerHTML = (r.ok && d.basarili)
+        ? `<span style="color:var(--green,#15803D)">${ICON_CHECK} ${esc(t('groq_hizli_basarili'))}</span>`
+        : `<span style="color:var(--red,#B91C1C)">${esc(d.detail || t('kaydedilemedi'))}</span>`;
+      if (r.ok && d.basarili) {
+        groqDurumGoster();
+        await modelTercihYukle();
+      }
+    } catch (e) {
+      sonucEl.innerHTML = `<span style="color:var(--red,#B91C1C)">${esc(t('baglanti_hatasi'))}: ${esc(e.message)}</span>`;
     }
   };
 
@@ -613,12 +665,12 @@ export function mount(container, api, toolId) {
         });
         const d = await r.json();
         if (r.ok) {
-          sonucEl.innerHTML = `<span style="color:#15803D">${ICON_CHECK} ${esc(t('transkript_kaydedildi'))}: ${esc(d.dosya_yolu)}</span>`;
+          sonucEl.innerHTML = `<span style="color:var(--green,#15803D)">${ICON_CHECK} ${esc(t('transkript_kaydedildi'))}: ${esc(d.dosya_yolu)}</span>`;
         } else {
-          sonucEl.innerHTML = `<span style="color:#B91C1C">${esc(d.detail || t('kaydedilemedi'))}</span>`;
+          sonucEl.innerHTML = `<span style="color:var(--red,#B91C1C)">${esc(d.detail || t('kaydedilemedi'))}</span>`;
         }
       } catch (e) {
-        sonucEl.innerHTML = `<span style="color:#B91C1C">${esc(t('baglanti_hatasi'))}: ${esc(e.message)}</span>`;
+        sonucEl.innerHTML = `<span style="color:var(--red,#B91C1C)">${esc(t('baglanti_hatasi'))}: ${esc(e.message)}</span>`;
       }
     };
 
@@ -630,9 +682,9 @@ export function mount(container, api, toolId) {
       const prompt = t('harici_llm_prompt_sablon', { transkript: transkriptMetniOlustur() });
       try {
         await navigator.clipboard.writeText(prompt);
-        sonucEl.innerHTML = `<span style="color:#15803D">${ICON_CHECK} ${esc(t('prompt_kopyalandi'))}</span>`;
+        sonucEl.innerHTML = `<span style="color:var(--green,#15803D)">${ICON_CHECK} ${esc(t('prompt_kopyalandi'))}</span>`;
       } catch (e) {
-        sonucEl.innerHTML = `<span style="color:#B91C1C">${esc(t('panoya_kopyalanamadi'))}: ${esc(e.message)}</span>`;
+        sonucEl.innerHTML = `<span style="color:var(--red,#B91C1C)">${esc(t('panoya_kopyalanamadi'))}: ${esc(e.message)}</span>`;
       }
     };
   }
@@ -842,12 +894,12 @@ export function mount(container, api, toolId) {
           const dd = await r.json();
           if (r.ok && dd.basarili) {
             raporMarkdownGuncel = yeniMetin;
-            sonucEl.innerHTML = `<span style="color:#15803D">${ICON_CHECK} ${esc(t('degisiklikler_kaydedildi'))}</span>`;
+            sonucEl.innerHTML = `<span style="color:var(--green,#15803D)">${ICON_CHECK} ${esc(t('degisiklikler_kaydedildi'))}</span>`;
           } else {
-            sonucEl.innerHTML = `<span style="color:#B91C1C">${esc(dd.detail || t('kaydedilemedi'))}</span>`;
+            sonucEl.innerHTML = `<span style="color:var(--red,#B91C1C)">${esc(dd.detail || t('kaydedilemedi'))}</span>`;
           }
         } catch (e) {
-          sonucEl.innerHTML = `<span style="color:#B91C1C">${esc(t('baglanti_hatasi'))}: ${esc(e.message)}</span>`;
+          sonucEl.innerHTML = `<span style="color:var(--red,#B91C1C)">${esc(t('baglanti_hatasi'))}: ${esc(e.message)}</span>`;
         }
       };
     }

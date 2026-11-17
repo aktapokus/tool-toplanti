@@ -44,6 +44,7 @@ from . import (
     stt_model_tercihi, stt_model_tercihi_kaydet,
     rapor_model_tercihi, rapor_model_tercihi_kaydet,
     konusmaci_ayrimi_tercihi, konusmaci_ayrimi_tercihi_kaydet,
+    groq_hizli_kurulum, groq_hizli_kurulum_durumu,
 )
 
 _plan_store: dict[str, dict] = {}
@@ -103,6 +104,23 @@ def _route_hf_token_kaydet(req: HFTokenRequest):
     if not req.token.strip():
         raise HTTPException(400, "Token boş olamaz.")
     hf_token_kaydet(req.token)
+    return {"basarili": True}
+
+
+@router.get("/settings/groq-hizli-kurulum")
+def _route_groq_hizli_kurulum_durumu():
+    return groq_hizli_kurulum_durumu()
+
+
+class GroqHizliKurulumRequest(BaseModel):
+    api_key: str
+
+
+@router.post("/settings/groq-hizli-kurulum")
+def _route_groq_hizli_kurulum(req: GroqHizliKurulumRequest):
+    if not req.api_key.strip():
+        raise HTTPException(400, "API key boş olamaz.")
+    groq_hizli_kurulum(req.api_key)
     return {"basarili": True}
 
 

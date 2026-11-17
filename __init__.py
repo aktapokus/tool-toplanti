@@ -105,6 +105,45 @@ def stt_model_tercihi() -> str:
     return _env_deger("TOPLANTI_STT_MODEL", "yerel")
 
 
+# ── Tek-tık Bulut STT kurulumu — hiç bilmeyen bir kullanıcı için ─────────────
+# Normal yol (yukarıdaki yorum) core'un `/settings` sayfasından elle
+# endpoint/gorev/model adı girmek — teknik bilgisi olmayan bir kullanıcı için
+# bu form gerçek kullanımda çok karmaşık bulundu (bkz. ekran görüntüsü geri
+# bildirimi). Bu fonksiyon o formu TEKRARLAMIYOR/YERİNE GEÇMİYOR — aynı
+# core registry'sine (models.json), Groq'un whisper endpoint'i için hazır,
+# sabit/test edilmiş bir kayıt yazıyor; kullanıcının tek yapması gereken
+# Groq'tan aldığı key'i yapıştırmak. İleride farklı bir bulut STT sağlayıcı
+# eklemek isteyen biri hâlâ /settings'teki genel formu kullanabilir — bu
+# sadece en yaygın/ücretsiz yol için bir kısayol.
+GROQ_WHISPER_MODEL_ID = "whisper-large-v3-turbo"
+GROQ_WHISPER_KEY_ENV = "MODEL_WHISPER_LARGE_V3_TURBO_KEY"
+GROQ_WHISPER_ENDPOINT = "https://api.groq.com/openai/v1/audio/transcriptions"
+
+
+def groq_hizli_kurulum_durumu() -> dict:
+    return {"yapilandirilmis": bool(_env_deger(GROQ_WHISPER_KEY_ENV))}
+
+
+def groq_hizli_kurulum(api_key: str) -> None:
+    """Groq API key'ini core'un model registry'sine (models.json) sabit bir
+    Bulut STT kaydı olarak yazar ve STT tercihini doğrudan bu modele
+    çevirir — kullanıcı ayrıca STT düğümünden "Bulut" seçmek zorunda
+    kalmasın diye (tek tıkla hem key kaydedilsin hem aktif olsun)."""
+    if not api_key or not api_key.strip():
+        raise ValueError("API key boş olamaz.")
+    import llm as _core_llm
+    _core_llm.model_ekle(GROQ_WHISPER_MODEL_ID, {
+        "provider": "openai_compat",
+        "model": GROQ_WHISPER_MODEL_ID,
+        "endpoint": GROQ_WHISPER_ENDPOINT,
+        "requires_key": True,
+        "gorev": "ses",
+        "key_env": GROQ_WHISPER_KEY_ENV,
+    })
+    _env_deger_yaz({GROQ_WHISPER_KEY_ENV: api_key.strip()})
+    stt_model_tercihi_kaydet(GROQ_WHISPER_MODEL_ID)
+
+
 def rapor_model_tercihi_kaydet(model_id: str) -> None:
     _env_deger_yaz({"TOPLANTI_RAPOR_MODEL": (model_id or "").strip()})
 

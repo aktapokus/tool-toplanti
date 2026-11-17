@@ -60,6 +60,59 @@ ayarlayabilirsiniz:
 - `TOPLANTI_WHISPER_MODEL=small` (varsayılan `medium`) — doğruluktan
   ödün verip süreyi belirgin şekilde kısaltmak için.
 
+**Daha hızlı: Bulut STT'ye geçiş.** Yerel whisper CPU'da çalıştığı için
+(özellikle ilk kullanımda model ağırlıkları da indirilirken) yavaş
+hissettirebilir. Groq gibi bulut bir sağlayıcıya geçmek saniyeler
+içinde sonuç verir. Key'iniz zaten varsa doğrudan 2. adıma geçin —
+yoksa (yeni kurulum) 1. adımla başlayın:
+
+1. **Groq'ta ücretsiz bir API key alın ve core'a kaydedin** (bir
+   kerelik kurulum):
+   - https://console.groq.com adresinde ücretsiz hesap açın.
+   - Sol menüden **API Keys** → **Create API Key**, çıkan key'i
+     (`gsk_...`) kopyalayın.
+   - Aktapokus core'un çalıştığı adrese gidin, **`/settings`** sayfasını
+     açın (ör. `http://localhost:8000/settings`).
+   - **"+ Yeni Model Ekle"** formunu, ekranda göründüğü SIRAYLA şöyle
+     doldurun (aşağıdaki alan adları formdaki etiketlerle birebir aynı):
+     1. **Model ID (benzersiz, boşluksuz):** `whisper-large-v3-turbo`
+        yazın (istediğiniz başka bir isim de olur, tek şart boşluksuz
+        olması).
+     2. **Sağlayıcı:** `☁ Bulut (OpenAI-uyumlu API)` — zaten varsayılan
+        seçili, değiştirmeyin.
+     3. **Görev:** dropdown'dan `🎙 Ses (transkripsiyon — ör. Groq/
+        OpenAI whisper uçları)` seçeneğini seçin (varsayılan "Metin"
+        gelir, mutlaka değiştirin — yanlışlıkla "Metin" bırakılırsa
+        Toplantı Notları bu modeli STT listesinde göremez).
+     4. **Endpoint URL:** `https://api.groq.com/openai/v1/audio/transcriptions`
+        yapıştırın — **bu alanı "Modelleri Getir"den ÖNCE doldurun**,
+        aksi halde buton "Önce endpoint girin." hatası verir.
+     5. **API Key:** Groq'tan kopyaladığınız `gsk_...` değerini yapıştırın.
+     6. **Model adı (API'ye gönderilen isim):** `whisper-large-v3-turbo`
+        yazın — ya da 4. adımdaki endpoint + 5. adımdaki key doluyken
+        yanındaki **"Modelleri Getir"** butonuna basıp Groq'un gerçek
+        model listesinden seçin (isim yanlış yazılmasın diye var, elle
+        yazmak da çalışır).
+     7. **API key gerektiriyor:** işaretli kalsın (varsayılan zaten
+        işaretli) — dokunmayın.
+     8. **Key ortam değişkeni adı:** boş bırakın, otomatik üretilir.
+     9. En alttaki **"Modeli Ekle"** butonuna basın.
+   - Kaydedildikten sonra bu model `models.json`'a eklenmiş olur, tüm
+     tool'lar (sadece Toplantı Notları değil) kullanabilir.
+2. Toplantı Notları arayüzünde **Transkripsiyon** düğümüne tıklayın,
+   açılan listeden **Bulut** seçeneğini (`whisper-large-v3-turbo` gibi)
+   seçin — seçim anında kaydedilir, ayrı bir kayıt butonu yok.
+3. Sonraki kayıt/yükleme bu bulut modelini kullanır. Konuşmacı ayrımı
+   (kim ne zaman konuştu) hâlâ yerel `pyannote`'ta kalır — hiçbir
+   sağlayıcı ikisini birlikte sunmuyor (bkz. "Ne yapar" bölümü);
+   isterseniz bu adımı da "Konuşmacı Ayrımı" düğümünden kapatıp
+   hızlandırabilirsiniz.
+
+Groq'un ücretsiz katmanı hem bu STT modeli hem rapor üretiminde
+kullanılan metin modeli (`gorq-aktapokus` gibi) için aynı hesaptan
+ayrı ayrı key alınarak kullanılabilir — ikisi farklı `models.json`
+kayıtlarıdır, birbirini etkilemez.
+
 Aynı anda birden fazla kayıt yüklenirse (kazara çift tıklama, birden
 fazla kullanıcı), ağır işleme adımı (whisper+pyannote) **kuyruğa alınır**
 — aynı anda sadece bir kayıt işlenir, diğerleri sırasını bekler. Bunun
